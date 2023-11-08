@@ -13,5 +13,6 @@ export const startGoogleSingIn = () => {
     return async( dispatch ) => {
         dispatch (checkingCredencials());
         const result = singInWithGoogle();
+        console.log(result)
     }
 }
