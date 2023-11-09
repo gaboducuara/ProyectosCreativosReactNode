@@ -7,15 +7,12 @@ import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks/index';
 import { checkingAuthenticated, startGoogleSingIn } from '../../store/auth';
 
-
-export const LoginPage = () => {
-    
+export const LoginPage = () => {    
     // una especie de validacion en los botones de login y google
     const { status } = useSelector( state => state.auth)
 
-
     const dispatch = useDispatch();
-    // Aqui se definira como sera el formulario
+    // Aqui se DEFINIRA como sera el formulario
     const { email, password, onInputChange } = useForm({
       email: 'gabrielmancilladucuara@gmail.com',
       password: 'gabriel1'
