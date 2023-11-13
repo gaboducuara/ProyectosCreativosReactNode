@@ -1,8 +1,10 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Button, Grid, Link, TextField, Typography } from '@mui/material';
+import { useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material';
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
-import { useState } from 'react';
+import { startCreatingUserWithEmailPassword } from '../../store/auth';
 
 
 // EL FORMATO DEL FORMULARIO
@@ -25,20 +27,22 @@ const formValidations = {
 
 export const RegisterPage = () => {
 
-    const [formsubmitted, setformsubmitted] = useState()
+    const dispatch = useDispatch()
+    const [formsubmitted, setformsubmitted] = useState(false)
+
+    const { status , errorMessage } = useSelector( state => state.auth );
+    const isCheckingAuthentication = useMemo(() => status === 'checking', [status]);
 
   const { displayName, email, password, onInputChange, formState, 
   isFormValid, displayNameValid, emailValid, passwordValid,
   //Aqui se pasan argumentos o funciones para el uso del userFORM
 } = useForm(formData, formValidations);
 
-
-console.log(displayNameValid)
-
   const onSubmit = ( event ) => {
     event.preventDefault();
-    setformsubmitted(true)
-    console.log(formState)
+    setformsubmitted(true);
+    if ( !isFormValid ) return;
+    dispatch(startCreatingUserWithEmailPassword(formState))
   }
 
   return (
@@ -91,8 +95,16 @@ console.log(displayNameValid)
             </Grid>
             
             <Grid container spacing={ 2 } sx={{ mb: 2, mt: 1 }}>
+              <Grid 
+                  item 
+                  xs={ 12 }
+                  display={!!errorMessage ? '' : 'none'}>
+                <Alert severity='error'>{ errorMessage }</Alert>
+              </Grid>
+
               <Grid item xs={ 12 }>
                 <Button
+                disabled={isCheckingAuthentication}
                 type='submit'
                 variant='contained' 
                 fullWidth>

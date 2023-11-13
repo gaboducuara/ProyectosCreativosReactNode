@@ -1,4 +1,4 @@
-import { singInWithGoogle } from "../../firebase/providers";
+import { registerUserWithEmailPassword, singInWithGoogle } from "../../firebase/providers";
 import { checkingCredencials, login, logout } from "./"
 
 // thunk de autenticacion
@@ -16,5 +16,15 @@ export const startGoogleSingIn = () => {
         if(!result.ok) return dispatch( logout( result.errorMessage))
         
         dispatch( login( result ) )
+    }
+}
+        //Creacion de usuario con correo y contraseña
+export const startCreatingUserWithEmailPassword = ({ email, password , displayName }) => {
+    return async( dispatch ) => {
+        dispatch(checkingCredencials());
+        const { ok, uid, photoURL } = await registerUserWithEmailPassword({ email, password , displayName });
+        //se espera que el logout tenga un objeto errorMessage
+        if (!ok) return dispatch(logout({ errorMessage }))
+        dispatch(login ({ uid, displayName, email, photoURL}));
     }
 }

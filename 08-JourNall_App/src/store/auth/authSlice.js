@@ -12,6 +12,7 @@ export const authSlice = createSlice({
         errorMessage: null,
     },
     reducers: {
+        //se loguea cambia el status autenticado
         login: (state, { payload }) => {
             state.status = 'authenticated',
             state.uid = payload.uid;
@@ -20,6 +21,7 @@ export const authSlice = createSlice({
             state.photoURL = payload.photoURL;
             state.errorMessage = null;
         },
+        // se desloguea cambia el status a no autenticado
         logout: (state, { payload }) => {
             state.status = 'not-authenticated',
             state.uid = null;
