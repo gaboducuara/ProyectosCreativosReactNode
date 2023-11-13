@@ -21,10 +21,18 @@ export const startGoogleSingIn = () => {
         //Creacion de usuario con correo y contraseña
 export const startCreatingUserWithEmailPassword = ({ email, password , displayName }) => {
     return async( dispatch ) => {
-        dispatch(checkingCredencials());
-        const { ok, uid, photoURL } = await registerUserWithEmailPassword({ email, password , displayName });
+        dispatch( checkingCredencials ());
+        
+        const { ok, uid, photoURL, errorMessage } = await registerUserWithEmailPassword({ email, password , displayName });
         //se espera que el logout tenga un objeto errorMessage
-        if (!ok) return dispatch(logout({ errorMessage }))
-        dispatch(login ({ uid, displayName, email, photoURL}));
+        if (!ok) return dispatch( logout ({ errorMessage }))
+        dispatch(login ({ uid, displayName, email, photoURL }));
     }
+}
+
+    // Chequeo de usuario y contraseña del login
+export const startLoginWithEmailPassword = () => {
+
+    
+
 }
