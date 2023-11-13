@@ -123,8 +123,6 @@ export const RegisterPage = () => {
             </Grid>
 
           </Grid>
-
-
         </form>
 
     </AuthLayout>

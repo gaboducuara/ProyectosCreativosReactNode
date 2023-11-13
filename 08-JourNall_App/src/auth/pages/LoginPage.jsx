@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom';
-import { Button, Grid, Link, TextField, Typography, useMediaQuery } from '@mui/material';
+import { Alert, Button, Grid, Link, TextField, Typography, useMediaQuery } from '@mui/material';
 import { Google } from '@mui/icons-material';
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks/index';
-import { checkingAuthenticated, startGoogleSingIn } from '../../store/auth';
+import { checkingAuthenticated, startGoogleSingIn, startLoginWithEmailPassword } from '../../store/auth';
 
 export const LoginPage = () => {    
     // una especie de validacion en los botones de login y google
-    const { status } = useSelector( state => state.auth)
+    const { status, errorMessage } = useSelector( state => state.auth)
 
     const dispatch = useDispatch();
     // Aqui se DEFINIRA como sera el formulario
@@ -23,13 +23,11 @@ export const LoginPage = () => {
     // Funcion OnSubmit BOTON  DE LOGIN
     const onSubmit = ( event ) => {
         event.preventDefault();
-        console.log({ email, password})
-        dispatch( checkingAuthenticated());
+        dispatch( startLoginWithEmailPassword({ email, password }));
     }
 
     //BOTON  DE GOOGLE
     const onGoogleSignIn = ( ) => {
-      console.log('onGoogleSignIn')
       dispatch( startGoogleSingIn())
     }
 
@@ -60,6 +58,18 @@ export const LoginPage = () => {
                 onChange={ onInputChange }
               />
             </Grid>
+
+            <Grid container
+            display={!!errorMessage ? '' : 'none'}
+            sx={{ mt:1 }}>
+              <Grid 
+                  item 
+                  xs={ 12 }
+                  display={!!errorMessage ? '' : 'none'}
+                >
+                <Alert severity='error'>{ errorMessage }</Alert>
+              </Grid>
+            </Grid>
             
             <Grid container spacing={ 2 } sx={{ mb: 2, mt: 1 }}>
               <Grid item xs={ 12 } sm={ 6 }>
@@ -72,6 +82,7 @@ export const LoginPage = () => {
                   Login
                 </Button>
               </Grid>
+
               <Grid item xs={ 12 } sm={ 6 }>
                 <Button
                   // estara desabilitada si esta autenticando

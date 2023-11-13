@@ -1,4 +1,4 @@
-import { registerUserWithEmailPassword, singInWithGoogle } from "../../firebase/providers";
+import { loginWithEmailPassword, registerUserWithEmailPassword, singInWithGoogle } from "../../firebase/providers";
 import { checkingCredencials, login, logout } from "./"
 
 // thunk de autenticacion
@@ -14,8 +14,7 @@ export const startGoogleSingIn = () => {
         dispatch (checkingCredencials());
         const result = await singInWithGoogle();
         if(!result.ok) return dispatch( logout( result.errorMessage))
-        
-        dispatch( login( result ) )
+        dispatch( login( result ))
     }
 }
         //Creacion de usuario con correo y contraseña
@@ -31,8 +30,13 @@ export const startCreatingUserWithEmailPassword = ({ email, password , displayNa
 }
 
     // Chequeo de usuario y contraseña del login
-export const startLoginWithEmailPassword = () => {
+export const startLoginWithEmailPassword = ({  email, password }) => {
+    return async ( dispatch ) => {
+        dispatch( checkingCredencials());
 
-    
-
+        const result = await loginWithEmailPassword({ email , password });
+        console.log(result)
+        if( !result.ok ) return dispatch( logout( result));
+        dispatch( login( result ));
+    }
 }
