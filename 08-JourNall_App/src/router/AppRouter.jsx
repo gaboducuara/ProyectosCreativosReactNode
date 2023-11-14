@@ -1,31 +1,13 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { FirebaseAuth } from '../firebase/config';
-import { useDispatch, useSelector } from 'react-redux';
-import { login, logout } from '../store/auth';
-
 import { AuthRoutes } from '../auth/routes/AuthRoutes';
 import { JournalRoutes } from '../journal/routes/JournalRoutes';
 import { CheckingAuth } from '../ui/';
-import { useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+import { useCheckAuth } from '../hooks';
 
 
 export const AppRouter = () => {
 
-  const {status } = useSelector(state => state.auth);
-  const dispatch = useDispatch();
-
-  // efecto de si la persona esta autenticada o no
-  useEffect(() => {
-    onAuthStateChanged(FirebaseAuth , async( user ) => {
-    //SI no tengo un usuario autenticado entonces logout
-      if (!user) return dispatch( logout());
-      const { uid, email, displayName, photoURL } = user;
-      dispatch(login({ uid, email, displayName, photoURL }))
-    })
-  }, [])
-  
-
+    const { status } = useCheckAuth();
 
   if (status === 'checking') {
     return <CheckingAuth/>
