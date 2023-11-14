@@ -14,8 +14,8 @@ export const LoginPage = () => {
     const dispatch = useDispatch();
     // Aqui se DEFINIRA como sera el formulario
     const { email, password, onInputChange } = useForm({
-      email: 'gabrielmancilladucuara@gmail.com',
-      password: 'gabriel1'
+      email: '',
+      password: ''
     });
     // se cersiona sobre el estado de la autenticacion y queda guardada en el memo
     const isAuthenticating = useMemo(() => status === 'checking', [status]);
