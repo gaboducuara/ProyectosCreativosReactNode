@@ -21,7 +21,7 @@ export const journalSlice = createSlice({
         },
         //funcion que, al hacer click se establece una nota activa
         setActiveNote: (state, action) => {
-
+            state.active = action.payload;
         },
         // funcion para cargar las notas
         setNotes: (state, action) => {
