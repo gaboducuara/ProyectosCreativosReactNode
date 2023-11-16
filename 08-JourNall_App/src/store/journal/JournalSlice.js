@@ -25,7 +25,7 @@ export const journalSlice = createSlice({
         },
         // funcion para cargar las notas
         setNotes: (state, action) => {
-
+            state.notes = action.payload;
         },
         //Funcion para grabar las notas, (boolean: true)
         setSaving: (state) => {
