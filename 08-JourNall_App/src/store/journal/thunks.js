@@ -40,3 +40,15 @@ export const startLoadingNotes = () => {
         dispatch( setNotes(notes))
     }
 }
+
+export const startSaveNote = () => {
+    return async ( dispatch , getState ) => {
+
+        const {} = getState().auth;
+        const { active:note } = getState().journal;
+
+        //la Nota que se envia a Firestore a grabar
+        const noteToFireStore = { ...note };
+
+    }
+};

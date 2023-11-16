@@ -7,16 +7,18 @@ import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks/index';
 import { checkingAuthenticated, startGoogleSingIn, startLoginWithEmailPassword } from '../../store/auth';
 
+const formData = {
+  email: '',
+  password: ''
+}
+
 export const LoginPage = () => {
   // una especie de validacion en los botones de login y google
   const { status, errorMessage } = useSelector(state => state.auth)
 
   const dispatch = useDispatch();
   // Aqui se DEFINIRA como sera el formulario
-  const { email, password, onInputChange } = useForm({
-    email: '',
-    password: ''
-  });
+  const { email, password, onInputChange } = useForm( formData );
   // se cersiona sobre el estado de la autenticacion y queda guardada en el memo
   const isAuthenticating = useMemo(() => status === 'checking', [status]);
 
