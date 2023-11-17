@@ -29,11 +29,20 @@ export const journalSlice = createSlice({
         },
         //Funcion para grabar las notas, (boolean: true)
         setSaving: (state) => {
-
+            //TODO: Mostrar mensaje de error....
+            state.isSaving = true;
         },
         //Actualizar una nota
-        updateNote: (state, action) => {
+        updateNote: (state, action) => {  //payload: note 
+            state.isSaving = false;
+            state.notes = state.notes.map( note => {
 
+                if (note.id === action.payload.id) {
+                    return action.payload;
+                }
+                return note;
+            })
+            //Mostrar mensaje de actualizacion
         },
         //Eliminacion de una nota
         deleteNoteById: (state, action) => {

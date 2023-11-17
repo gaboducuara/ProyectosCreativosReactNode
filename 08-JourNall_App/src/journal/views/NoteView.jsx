@@ -4,7 +4,7 @@ import { SaveOutlined } from '@mui/icons-material';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 import { ImageGallery } from '../components'
 import { useForm } from './../../hooks/useForm';
-import { setActiveNote } from '../../store/journal';
+import { setActiveNote, startSaveNote } from '../../store/journal';
 
 
 export const NoteView = () => {
@@ -21,12 +21,12 @@ export const NoteView = () => {
     }, [ date ])
 
     useEffect(() => {
-        dispatch( setActiveNote( formState ) )
+        dispatch( setActiveNote( formState ) );
     }, [formState]);
 
     // GUARDAR LA NOTA 
     const onSaveNote = () => {
-        dispatch();
+        dispatch(startSaveNote());
     }
 
     return (

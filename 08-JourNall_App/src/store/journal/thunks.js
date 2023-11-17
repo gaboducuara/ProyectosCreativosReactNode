@@ -1,6 +1,6 @@
 import { collection, doc, setDoc } from 'firebase/firestore/lite'
 import { FirebaseDB } from '../../firebase/config'
-import { addNewEmtyNote, setActiveNote, savingNewNote, setNotes } from './'
+import { addNewEmtyNote, setActiveNote, savingNewNote, setNotes, setSaving, updateNote } from './'
 import { loadNotes } from '../../helpers'
 
 export const startNewNote = () => {
@@ -44,11 +44,19 @@ export const startLoadingNotes = () => {
 export const startSaveNote = () => {
     return async ( dispatch , getState ) => {
 
-        const {} = getState().auth;
+        dispatch( setSaving())
+
+        const { uid } = getState().auth;
         const { active:note } = getState().journal;
 
         //la Nota que se envia a Firestore a grabar
         const noteToFireStore = { ...note };
+        delete noteToFireStore.id;
 
+        const docRef = doc(FirebaseDB, `${ uid }/journal/notes/${ note.id }`);
+        //Forma de impactar la base de datos en firebase
+        await setDoc( docRef , noteToFireStore, { merge: true } );
+
+        dispatch ( updateNote( note ) )
     }
 };
